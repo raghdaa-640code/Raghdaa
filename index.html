@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raghdaa Mohamed — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --main: #f8b4c6;
+  --main-light: #fce4ec;
+  --second: #f472b6;
+  --second-dark: #db2777;
+  --bg: #fafafa;
+  --bg-alt: #f5f5f5;
+  --card: #ffffff;
+  --card-hover: #fff5f7;
+  --text: #1a1a2e;
+  --text-muted: #6b7280;
+  --border: rgba(0,0,0,0.06);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.12);
+  --radius-sm: 12px;
+  --radius: 20px;
+  --radius-lg: 28px;
+  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+body[data-theme="dark"] {
+  --main: #ff8fab;
+  --main-light: rgba(255,143,171,0.1);
+  --second: #f472b6;
+  --second-dark: #ec4899;
+  --bg: #0a0a0f;
+  --bg-alt: #111118;
+  --card: #13131f;
+  --card-hover: #1a1a2e;
+  --text: #f0f0f5;
+  --text-muted: #9ca3af;
+  --border: rgba(255,255,255,0.06);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow: 0 4px 20px rgba(0,0,0,0.4);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.5);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+::selection { background: var(--main); color: white; }
+
+.loader {
+  position: fixed; inset: 0; background: var(--bg); z-index: 99999;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s;
+}
+.loader.hidden { opacity: 0; visibility: hidden; }
+.loader-ring {
+  width: 60px; height: 60px; border: 3px solid var(--main-light);
+  border-top-color: var(--second); border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-alt); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--main), var(--second));
+  border-radius: 10px;
+}
+
+.particles {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  overflow: hidden;
+}
+.particle {
+  position: absolute; border-radius: 50%;
+  background: linear-gradient(135deg, var(--main), var(--second));
+  opacity: 0.03; animation: float-particle 20s infinite ease-in-out;
+}
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+  25% { transform: translateY(-30px) translateX(20px) scale(1.1); }
+  50% { transform: translateY(20px) translateX(-20px) scale(0.9); }
+  75% { transform: translateY(-10px) translateX(30px) scale(1.05); }
+}
+
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 16px 6%; display: flex; justify-content: space-between;
+  align-items: center; transition: var(--transition);
+}
+header.scrolled {
+  background: rgba(var(--bg-rgb, 250,250,250), 0.8);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  box-shadow: var(--shadow-sm); padding: 12px 6%;
+}
+body[data-theme="dark"] header.scrolled {
+  background: rgba(10,10,15, 0.85);
+}
+.logo svg {
+  width: 150px; transition: var(--transition); cursor: pointer;
+}
+.logo svg:hover { transform: scale(1.05) rotate(-2deg); }
+
+.desktop-nav { display: flex; align-items: center; gap: 8px; }
+.desktop-nav a {
+  text-decoration: none; color: var(--text-muted); font-weight: 500;
+  font-size: 0.92rem; padding: 8px 16px; border-radius: 100px;
+  transition: var(--transition); position: relative;
+}
+.desktop-nav a::after {
+  content: ''; position: absolute; bottom: 4px; left: 50%;
+  transform: translateX(-50%) scaleX(0); width: 20px; height: 2px;
+  background: linear-gradient(90deg, var(--main), var(--second));
+  border-radius: 2px; transition: transform 0.3s ease;
+}
+.desktop-nav a:hover, .desktop-nav a.active {
+  color: var(--second); background: var(--main-light);
+}
+.desktop-nav a:hover::after, .desktop-nav a.active::after {
+  transform: translateX(-50%) scaleX(1);
+}
+.theme-toggle {
+  cursor: pointer; margin-left: 12px; width: 44px; height: 44px;
+  border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; background: var(--card);
+  border: 1px solid var(--border); font-size: 1.1rem;
+  transition: var(--transition-bounce); box-shadow: var(--shadow-sm);
+}
+.theme-toggle:hover {
+  transform: scale(1.1) rotate(15deg); box-shadow: var(--shadow);
+}
+
+.mobile-menu-btn {
+  display: none; width: 44px; height: 44px; border-radius: 12px;
+  background: var(--card); border: 1px solid var(--border);
+  align-items: center; justify-content: center; cursor: pointer;
+  flex-direction: column; gap: 5px; z-index: 1002;
+  transition: var(--transition);
+}
+.mobile-menu-btn span {
+  display: block; width: 20px; height: 2px;
+  background: var(--text); border-radius: 2px;
+  transition: var(--transition);
+}
+.mobile-menu-btn.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
+.mobile-menu-btn.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.mobile-nav {
+  position: fixed; inset: 0;
+  background: rgba(var(--bg-rgb, 250,250,250), 0.98);
+  backdrop-filter: blur(30px); z-index: 1001;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 24px;
+  opacity: 0; visibility: hidden; transition: all 0.4s ease;
+}
+body[data-theme="dark"] .mobile-nav {
+  background: rgba(10,10,15, 0.98);
+}
+.mobile-nav.active { opacity: 1; visibility: visible; }
+.mobile-nav a {
+  font-size: 1.5rem; font-weight: 600; color: var(--text);
+  text-decoration: none; opacity: 0; transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+.mobile-nav.active a { opacity: 1; transform: translateY(0); }
+.mobile-nav.active a:nth-child(1) { transition-delay: 0.1s; }
+.mobile-nav.active a:nth-child(2) { transition-delay: 0.15s; }
+.mobile-nav.active a:nth-child(3) { transition-delay: 0.2s; }
+.mobile-nav.active a:nth-child(4) { transition-delay: 0.25s; }
+.mobile-nav.active a:nth-child(5) { transition-delay: 0.3s; }
+.mobile-nav.active a:nth-child(6) { transition-delay: 0.35s; }
+.mobile-nav a:hover { color: var(--second); }
+
+.cover {
+  position: relative; min-height: 100vh; display: flex;
+  align-items: center; justify-content: center; gap: 80px;
+  padding: 120px 8% 80px; overflow: hidden;
+}
+.cover::before {
+  content: ''; position: absolute; top: -50%; right: -20%;
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, var(--main-light) 0%, transparent 70%);
+  opacity: 0.6; pointer-events: none;
+  animation: pulse-glow 8s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+.cover-img { position: relative; z-index: 1; }
+.cover-img .img-wrapper { position: relative; width: 320px; height: 320px; }
+.cover-img img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+  border: 5px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(135deg, var(--main), var(--second), var(--main)) border-box;
+  box-shadow: 0 20px 60px rgba(244, 114, 182, 0.3),
+    0 0 0 15px var(--main-light), inset 0 0 30px rgba(0,0,0,0.1);
+  animation: float 6s ease-in-out infinite; transition: var(--transition);
+}
+.cover-img img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 30px 80px rgba(244, 114, 182, 0.4),
+    0 0 0 20px var(--main-light), inset 0 0 30px rgba(0,0,0,0.1);
+}
+.cover-img .orbit {
+  position: absolute; inset: -30px; border: 2px dashed var(--main);
+  border-radius: 50%; opacity: 0.3; animation: orbit-spin 20s linear infinite;
+}
+@keyframes orbit-spin { to { transform: rotate(360deg); } }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.cover-text { position: relative; z-index: 1; max-width: 560px; }
+.cover-text .badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 20px; background: var(--card); border: 1px solid var(--border);
+  border-radius: 100px; font-size: 0.85rem; color: var(--second);
+  font-weight: 500; margin-bottom: 24px; box-shadow: var(--shadow-sm);
+  animation: fade-up 0.8s ease forwards;
+}
+.cover-text .badge::before {
+  content: ''; width: 8px; height: 8px; background: #22c55e;
+  border-radius: 50%; animation: pulse-dot 2s ease infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+.cover-text h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 3.8rem); font-weight: 700;
+  line-height: 1.1; margin-bottom: 16px;
+  animation: fade-up 0.8s ease 0.1s forwards; opacity: 0;
+}
+.cover-text h1 span {
+  background: linear-gradient(135deg, var(--main), var(--second), var(--second-dark));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cover-text h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem); color: var(--second);
+  font-weight: 500; margin-bottom: 20px; min-height: 40px;
+  animation: fade-up 0.8s ease 0.2s forwards; opacity: 0;
+}
+.cover-text h3::after {
+  content: '|'; animation: blink 1s step-end infinite;
+  margin-left: 4px; color: var(--second);
+}
+@keyframes blink { 50% { opacity: 0; } }
+.cover-text p {
+  font-size: 1.05rem; line-height: 1.8; color: var(--text-muted);
+  margin-bottom: 32px; animation: fade-up 0.8s ease 0.3s forwards; opacity: 0;
+}
+.cover-buttons {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  animation: fade-up 0.8s ease 0.4s forwards; opacity: 0;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 32px; border-radius: 100px; text-decoration: none;
+  font-weight: 600; font-size: 0.95rem; transition: var(--transition-bounce);
+  position: relative; overflow: hidden; border: none; cursor: pointer;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--main), var(--second));
+  color: white; box-shadow: 0 8px 30px rgba(244, 114, 182, 0.35);
+}
+.btn-primary::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--second), var(--second-dark));
+  opacity: 0; transition: opacity 0.3s;
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(244, 114, 182, 0.5);
+}
+.btn-primary:hover::before { opacity: 1; }
+.btn-primary span { position: relative; z-index: 1; }
+.btn-secondary {
+  background: var(--card); color: var(--text);
+  border: 2px solid var(--border); box-shadow: var(--shadow-sm);
+}
+.btn-secondary:hover {
+  border-color: var(--second); color: var(--second);
+  transform: translateY(-3px); box-shadow: var(--shadow);
+}
+
+.scroll-indicator {
+  position: absolute; bottom: 30px; left: 50%;
+  transform: translateX(-50%); display: flex;
+  flex-direction: column; align-items: center; gap: 8px;
+  color: var(--text-muted); font-size: 0.75rem;
+  animation: fade-up 1s ease 1s forwards; opacity: 0;
+}
+.scroll-indicator .mouse {
+  width: 24px; height: 36px; border: 2px solid var(--text-muted);
+  border-radius: 12px; position: relative;
+}
+.scroll-indicator .mouse::after {
+  content: ''; position: absolute; top: 6px; left: 50%;
+  transform: translateX(-50%); width: 4px; height: 8px;
+  background: var(--second); border-radius: 2px;
+  animation: scroll-wheel 2s ease infinite;
+}
+@keyframes scroll-wheel {
+  0%, 100% { top: 6px; opacity: 1; }
+  50% { top: 18px; opacity: 0; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+section { position: relative; padding: 100px 8%; z-index: 1; }
+.section-header { text-align: center; margin-bottom: 60px; }
+.section-header h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 700;
+  margin-bottom: 12px; display: inline-flex; align-items: center; gap: 12px;
+}
+.section-header h2 .icon {
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, var(--main), var(--second));
+  border-radius: 12px; display: inline-flex; align-items: center;
+  justify-content: center; color: white; font-size: 1.1rem;
+}
+.section-header p {
+  color: var(--text-muted); font-size: 1.05rem;
+  max-width: 500px; margin: 0 auto;
+}
+
+.reveal {
+  opacity: 0; transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal.active { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+#about { background: var(--bg-alt); }
+.story {
+  max-width: 850px; margin: 0 auto; text-align: center;
+  font-size: 1.1rem; line-height: 2; color: var(--text-muted);
+}
+.story p { margin-bottom: 16px; }
+.story strong { color: var(--text); font-weight: 600; }
+.story .highlight {
+  background: linear-gradient(120deg, var(--main-light) 0%, var(--main-light) 100%);
+  background-repeat: no-repeat; background-size: 100% 40%;
+  background-position: 0 88%; padding: 0 4px; color: var(--text);
+}
+.stats {
+  display: flex; justify-content: center; gap: 60px;
+  margin-top: 50px; flex-wrap: wrap;
+}
+.stat-item { text-align: center; }
+.stat-item .number {
+  font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--main), var(--second));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat-item .label { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
+
+.timeline { max-width: 800px; margin: 0 auto; position: relative; }
+.timeline::before {
+  content: ''; position: absolute; left: 20px; top: 0; bottom: 0;
+  width: 2px; background: linear-gradient(180deg, var(--main), var(--second));
+  border-radius: 2px;
+}
+.timeline-item { position: relative; padding-left: 60px; padding-bottom: 40px; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot {
+  position: absolute; left: 8px; top: 4px; width: 24px; height: 24px;
+  background: var(--bg); border: 3px solid var(--second); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+}
+.timeline-item:hover .timeline-dot {
+  transform: scale(1.2); box-shadow: 0 0 20px rgba(244, 114, 182, 0.4);
+}
+.timeline-dot i { font-size: 0.6rem; color: var(--second); }
+.timeline-content {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 28px; transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+.timeline-content:hover {
+  transform: translateX(8px); box-shadow: var(--shadow); border-color: var(--main);
+}
+.timeline-content h3 {
+  font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem;
+  font-weight: 600; margin-bottom: 6px; color: var(--text);
+}
+.timeline-content .meta {
+  color: var(--second); font-size: 0.9rem; font-weight: 500;
+  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+}
+.timeline-content p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+.timeline-content .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.timeline-content .tag {
+  padding: 4px 12px; background: var(--main-light); color: var(--second-dark);
+  border-radius: 100px; font-size: 0.8rem; font-weight: 500;
+}
+
+#skills { background: var(--bg-alt); }
+.skills-category { max-width: 1100px; margin: 0 auto 50px; }
+.skills-category:last-child { margin-bottom: 0; }
+.skills-category-title {
+  font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem;
+  font-weight: 600; color: var(--second); margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px; padding-left: 8px;
+}
+.skills-category-title i { font-size: 1rem; }
+.skills-category-title::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--main), transparent); margin-left: 12px;
+}
+.skills-row { display: flex; flex-wrap: wrap; gap: 14px; }
+.skill-tag {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 12px 22px; background: var(--card); border: 1px solid var(--border);
+  border-radius: 100px; font-size: 0.92rem; font-weight: 500;
+  color: var(--text); transition: var(--transition); cursor: default;
+  box-shadow: var(--shadow-sm);
+}
+.skill-tag i { font-size: 1rem; color: var(--second); transition: var(--transition); }
+.skill-tag:hover {
+  background: linear-gradient(135deg, var(--main), var(--second));
+  color: white; border-color: transparent; transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(244, 114, 182, 0.3);
+}
+.skill-tag:hover i { color: white; }
+
+.services-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px; max-width: 1200px; margin: 0 auto;
+}
+.service-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 36px 28px;
+  transition: var(--transition); box-shadow: var(--shadow-sm);
+  position: relative; overflow: hidden;
+}
+.service-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 0; background: linear-gradient(180deg, transparent, var(--main-light));
+  transition: height 0.4s ease;
+}
+.service-card:hover {
+  transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: var(--main);
+}
+.service-card:hover::after { height: 100px; }
+.service-card .service-icon {
+  width: 56px; height: 56px;
+  background: linear-gradient(135deg, var(--main), var(--second));
+  border-radius: var(--radius-sm); display: flex; align-items: center;
+  justify-content: center; font-size: 1.4rem; color: white;
+  margin-bottom: 20px; position: relative; z-index: 1;
+  transition: var(--transition-bounce);
+}
+.service-card:hover .service-icon {
+  transform: scale(1.1) rotate(-8deg);
+  box-shadow: 0 10px 30px rgba(244, 114, 182, 0.4);
+}
+.service-card h3 {
+  font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem;
+  font-weight: 600; margin-bottom: 10px; position: relative; z-index: 1;
+}
+.service-card p {
+  color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;
+  position: relative; z-index: 1;
+}
+
+#projects { background: var(--bg-alt); }
+.projects-filter {
+  display: flex; justify-content: center; gap: 10px;
+  margin-bottom: 40px; flex-wrap: wrap;
+}
+.filter-btn {
+  padding: 10px 24px; border-radius: 100px; border: 1px solid var(--border);
+  background: var(--card); color: var(--text-muted); font-weight: 500;
+  font-size: 0.9rem; cursor: pointer; transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+.filter-btn:hover, .filter-btn.active {
+  background: linear-gradient(135deg, var(--main), var(--second));
+  color: white; border-color: transparent;
+  box-shadow: 0 8px 25px rgba(244, 114, 182, 0.35);
+}
+.projects-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px; max-width: 1300px; margin: 0 auto;
+}
+.project-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  transition: var(--transition); box-shadow: var(--shadow-sm); position: relative;
+}
+.project-card.hidden { display: none; }
+.project-card:hover {
+  transform: translateY(-8px) scale(1.01); box-shadow: var(--shadow-lg);
+  border-color: var(--main);
+}
+.project-card .project-img {
+  height: 170px; background: linear-gradient(135deg, var(--main-light), rgba(244,114,182,0.1));
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.project-card .project-img::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--main), var(--second));
+  opacity: 0; transition: opacity 0.4s;
+}
+.project-card:hover .project-img::before { opacity: 0.9; }
+.project-card .project-img i {
+  font-size: 2.8rem; color: var(--second); opacity: 0.3;
+  transition: var(--transition); position: relative; z-index: 1;
+}
+.project-card:hover .project-img i {
+  color: white; opacity: 1; transform: scale(1.2);
+}
+.project-card .project-body { padding: 22px; }
+.project-card .project-type {
+  display: inline-block; padding: 4px 12px; background: var(--main-light);
+  color: var(--second-dark); border-radius: 100px; font-size: 0.75rem;
+  font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.project-card h3 {
+  font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem;
+  font-weight: 600; margin-bottom: 6px;
+}
+.project-card p {
+  color: var(--text-muted); font-size: 0.88rem;
+  line-height: 1.6; margin-bottom: 14px;
+}
+.project-card .project-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--second); text-decoration: none; font-weight: 600;
+  font-size: 0.88rem; transition: var(--transition);
+}
+.project-card .project-link:hover {
+  gap: 14px; color: var(--second-dark);
+}
+.project-card .project-link i { transition: transform 0.3s; }
+.project-card .project-link:hover i { transform: translateX(4px); }
+
+.contact-wrapper { max-width: 600px; margin: 0 auto; text-align: center; }
+.contact-text {
+  color: var(--text-muted); font-size: 1.1rem;
+  margin-bottom: 40px; line-height: 1.8;
+}
+.contact-grid {
+  display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+}
+.contact-item {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 24px 28px; background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); text-decoration: none; color: var(--text);
+  transition: var(--transition); min-width: 130px; box-shadow: var(--shadow-sm);
+}
+.contact-item:hover {
+  transform: translateY(-6px); border-color: var(--main); box-shadow: var(--shadow);
+}
+.contact-item .contact-icon {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, var(--main-light), rgba(244,114,182,0.05));
+  border-radius: 14px; display: flex; align-items: center;
+  justify-content: center; font-size: 1.3rem; color: var(--second);
+  transition: var(--transition-bounce);
+}
+.contact-item:hover .contact-icon {
+  background: linear-gradient(135deg, var(--main), var(--second));
+  color: white; transform: scale(1.15) rotate(-8deg);
+}
+.contact-item span { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); }
+
+footer {
+  text-align: center; padding: 40px 8%; border-top: 1px solid var(--border);
+  color: var(--text-muted); font-size: 0.9rem;
+}
+footer .heart {
+  color: var(--second); display: inline-block;
+  animation: heartbeat 1.5s ease infinite;
+}
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  14% { transform: scale(1.2); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.2); }
+  70% { transform: scale(1); }
+}
+
+@media (max-width: 900px) {
+  .desktop-nav { display: none; }
+  .mobile-menu-btn { display: flex; }
+  .cover {
+    flex-direction: column-reverse; text-align: center;
+    gap: 50px; padding-top: 100px;
+  }
+  .cover-img .img-wrapper { width: 240px; height: 240px; }
+  .cover-buttons { justify-content: center; }
+  section { padding: 70px 5%; }
+  .stats { gap: 30px; }
+  .timeline::before { left: 14px; }
+  .timeline-item { padding-left: 48px; }
+  .timeline-dot { left: 2px; width: 20px; height: 20px; }
+}
+@media (max-width: 480px) {
+  .cover-img .img-wrapper { width: 200px; height: 200px; }
+  .btn { padding: 12px 24px; font-size: 0.9rem; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+<base target="_blank">
+</head>
+
+<body data-theme="light">
+
+<div class="loader" id="loader">
+  <div class="loader-ring"></div>
+</div>
+
+<div class="particles" id="particles"></div>
+
+<header id="header">
+  <div class="logo">
+    <svg viewBox="0 0 500 120">
+      <defs>
+        <linearGradient id="codeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#f8b4c6"/>
+          <stop offset="100%" stop-color="#f472b6"/>
+        </linearGradient>
+        <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#f472b6"/>
+          <stop offset="100%" stop-color="#ff8fab"/>
+        </linearGradient>
+      </defs>
+      <text x="0" y="75" font-size="70" font-weight="700" fill="url(#codeGrad)">&lt;/&gt;</text>
+      <text x="150" y="75" font-size="60" font-weight="700" fill="url(#textGrad)">Raghdaa</text>
+    </svg>
+  </div>
+
+  <nav class="desktop-nav">
+    <a href="#about">About</a>
+    <a href="#education">Education</a>
+    <a href="#skills">Skills</a>
+    <a href="#services">Services</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+  </nav>
+
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#about">About</a>
+  <a href="#education">Education</a>
+  <a href="#skills">Skills</a>
+  <a href="#services">Services</a>
+  <a href="#projects">Projects</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<main>
+
+<section class="cover">
+  <div class="cover-text">
+    <div class="badge"><span>Available for work</span></div>
+    <h1>Hi I'm <span>Raghdaa Mohamed</span></h1>
+    <h3 id="typing"></h3>
+    <p>Front-End Developer passionate about building responsive and beautiful web interfaces. I transform ideas into engaging digital experiences that users love.</p>
+    <div class="cover-buttons">
+      <a href="#projects" class="btn btn-primary"><span>View Projects</span> <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#contact" class="btn btn-secondary"><i class="fa-solid fa-paper-plane"></i> Get in Touch</a>
+    </div>
+  </div>
+  <div class="cover-img">
+    <div class="img-wrapper">
+      <div class="orbit"></div>
+      <img src="photo_2026-02-23_16-34-23.jpg" alt="Raghdaa Mohamed">
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="mouse"></div><span>Scroll Down</span>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-header reveal">
+    <h2><span class="icon"><i class="fa-solid fa-user"></i></span> About Me</h2>
+    <p>Get to know my story and what drives me</p>
+  </div>
+  <div class="story reveal reveal-delay-1">
+    <p>My journey into web development started with <span class="highlight">curiosity and creativity</span>. As a Computer Science student, I found myself drawn to building websites that not only work flawlessly but also tell a story through design.</p>
+    <p>Each project taught me to blend technical skills with user experience, turning ideas into engaging digital experiences. I thrive when transforming a blank page into a functional, beautiful interface.</p>
+    <p>I focus on combining <strong>Front-End development</strong> with Back-End programming logic to build complete, scalable web applications. I have applied these skills in real-world projects like <span class="highlight">Booking Platforms</span> and <span class="highlight">E-commerce stores</span>, crafting interactive, user-friendly interfaces. Always motivated to transform code into efficient software solutions that enhance user experience.</p>
+  </div>
+  <div class="stats reveal reveal-delay-2">
+    <div class="stat-item"><div class="number" data-count="24">0</div><div class="label">Projects</div></div>
+    <div class="stat-item"><div class="number" data-count="18">0</div><div class="label">Skills</div></div>
+    <div class="stat-item"><div class="number" data-count="4">0</div><div class="label">Services</div></div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="section-header reveal">
+    <h2><span class="icon"><i class="fa-solid fa-graduation-cap"></i></span> Education</h2>
+    <p>My academic journey and certifications</p>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"><i class="fa-solid fa-star"></i></div>
+      <div class="timeline-content">
+        <h3>Bachelor's Degree in Science</h3>
+        <div class="meta"><i class="fa-solid fa-building-columns"></i> Damietta University &middot; 2024 - 2028</div>
+        <p>Major: Computer Science | Cumulative Grade: Very Good</p>
+        <div class="tags"><span class="tag">Computer Science</span><span class="tag">Very Good</span></div>
+      </div>
+    </div>
+    <div class="timeline-item reveal reveal-delay-1">
+      <div class="timeline-dot"><i class="fa-solid fa-certificate"></i></div>
+      <div class="timeline-content">
+        <h3>Front-End Web Design Certificate</h3>
+        <div class="meta"><i class="fa-solid fa-award"></i> Mansoura University (ITC) &middot; Jul 2025</div>
+        <p>The Center For Studies And Scientific Consultations, Faculty of Science, in cooperation with ITC.</p>
+        <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Bootstrap</span><span class="tag">jQuery</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-header reveal">
+    <h2><span class="icon"><i class="fa-solid fa-code"></i></span> Technical Skills</h2>
+    <p>Technologies and tools I work with</p>
+  </div>
+  <div class="skills-category reveal">
+    <div class="skills-category-title"><i class="fa-solid fa-terminal"></i> Programming</div>
+    <div class="skills-row">
+      <div class="skill-tag"><i class="fa-brands fa-python"></i> Python</div>
+      <div class="skill-tag"><i class="fa-solid fa-code"></i> C++</div>
+      <div class="skill-tag"><i class="fa-solid fa-cubes"></i> OOP</div>
+      <div class="skill-tag"><i class="fa-solid fa-database"></i> SQL</div>
+      <div class="skill-tag"><i class="fa-solid fa-sitemap"></i> Data Structures</div>
+    </div>
+  </div>
+  <div class="skills-category reveal reveal-delay-1">
+    <div class="skills-category-title"><i class="fa-solid fa-globe"></i> Web Development</div>
+    <div class="skills-row">
+      <div class="skill-tag"><i class="fa-brands fa-html5"></i> HTML</div>
+      <div class="skill-tag"><i class="fa-brands fa-css3-alt"></i> CSS</div>
+      <div class="skill-tag"><i class="fa-brands fa-js"></i> JavaScript</div>
+      <div class="skill-tag"><i class="fa-brands fa-bootstrap"></i> Bootstrap</div>
+      <div class="skill-tag"><i class="fa-solid fa-dollar-sign"></i> jQuery</div>
+      <div class="skill-tag"><i class="fa-brands fa-wordpress"></i> WordPress</div>
+      <div class="skill-tag"><i class="fa-solid fa-mobile-screen"></i> Responsive Design</div>
+    </div>
+  </div>
+  <div class="skills-category reveal reveal-delay-2">
+    <div class="skills-category-title"><i class="fa-solid fa-palette"></i> Design</div>
+    <div class="skills-row">
+      <div class="skill-tag"><i class="fa-solid fa-pen-nib"></i> UI/UX Design</div>
+      <div class="skill-tag"><i class="fa-solid fa-vector-square"></i> Wireframing</div>
+      <div class="skill-tag"><i class="fa-brands fa-figma"></i> Figma</div>
+      <div class="skill-tag"><i class="fa-brands fa-adobe"></i> Adobe XD</div>
+      <div class="skill-tag"><i class="fa-solid fa-paintbrush"></i> Canva</div>
+    </div>
+  </div>
+  <div class="skills-category reveal">
+    <div class="skills-category-title"><i class="fa-solid fa-network-wired"></i> Networking</div>
+    <div class="skills-row">
+      <div class="skill-tag"><i class="fa-solid fa-server"></i> Computer Networks</div>
+      <div class="skill-tag"><i class="fa-solid fa-route"></i> Cisco Packet Tracer</div>
+    </div>
+  </div>
+  <div class="skills-category reveal reveal-delay-1">
+    <div class="skills-category-title"><i class="fa-solid fa-toolbox"></i> Tools & Office</div>
+    <div class="skills-row">
+      <div class="skill-tag"><i class="fa-brands fa-git-alt"></i> Git & GitHub</div>
+      <div class="skill-tag"><i class="fa-solid fa-file-excel"></i> Excel</div>
+      <div class="skill-tag"><i class="fa-solid fa-file-word"></i> Word</div>
+      <div class="skill-tag"><i class="fa-solid fa-file-powerpoint"></i> PowerPoint</div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="section-header reveal">
+    <h2><span class="icon"><i class="fa-solid fa-briefcase"></i></span> Offered Services</h2>
+    <p>What I can do for you</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon"><i class="fa-solid fa-laptop-code"></i></div>
+      <h3>Front-End Development</h3>
+      <p>Building responsive and interactive websites using HTML, CSS, JavaScript, and Bootstrap. Clean code, optimized performance, and pixel-perfect implementation.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+      <h3>UI/UX Design</h3>
+      <p>Creating intuitive and attractive interfaces with a focus on user experience. From wireframes to high-fidelity prototypes that delight users.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-icon"><i class="fa-solid fa-layer-group"></i></div>
+      <h3>Website Prototyping</h3>
+      <p>Wireframing and prototyping designs in Figma & Adobe XD for seamless implementation. Turn your vision into a clickable prototype before development.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <div class="service-icon"><i class="fa-solid fa-file-code"></i></div>
+      <h3>Script Writing</h3>
+      <p>Writing efficient scripts in Python, C++, and SQL to automate tasks, process data, and build functional backend solutions tailored to your needs.</p>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-header reveal">
+    <h2><span class="icon"><i class="fa-solid fa-rocket"></i></span> Projects</h2>
+    <p>Some of my recent work</p>
+  </div>
+  <div class="projects-filter reveal">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="web">Websites</button>
+    <button class="filter-btn" data-filter="dashboard">Dashboards</button>
+    <button class="filter-btn" data-filter="app">Applications</button>
+    <button class="filter-btn" data-filter="design">Design</button>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal" data-category="web">
+      <div class="project-img"><i class="fa-solid fa-id-card"></i></div>
+      <div class="project-body">
+        <span class="project-type">Website</span>
+        <h3>Portfolio Website</h3>
+        <p>Personal portfolio showcasing skills, projects, and services with modern design.</p>
+        <a href="https://raghdaa-640code.github.io/prtofilyo/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-1" data-category="web">
+      <div class="project-img"><i class="fa-solid fa-calendar-check"></i></div>
+      <div class="project-body">
+        <span class="project-type">Website</span>
+        <h3>Booking Platform</h3>
+        <p>Restaurant and clinic booking platform with elegant UI for easy reservations.</p>
+        <a href="https://raghdaa-640code.github.io/Booking-platform/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-2" data-category="web">
+      <div class="project-img"><i class="fa-solid fa-flask"></i></div>
+      <div class="project-body">
+        <span class="project-type">Website</span>
+        <h3>Research Management</h3>
+        <p>Academic research campaign management platform for organizing research projects.</p>
+        <a href="https://raghdaa-640code.github.io/Research-Management/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal" data-category="web">
+      <div class="project-img"><i class="fa-solid fa-spray-can-sparkles"></i></div>
+      <div class="project-body">
+        <span class="project-type">Website</span>
+        <h3>L'Essence Perfume Studio</h3>
+        <p>Elegant perfume studio website with luxurious design and product showcase.</p>
+        <a href="https://raghdaa-640code.github.io/LEssence-Perfume-Studio/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-1" data-category="design">
+      <div class="project-img"><i class="fa-solid fa-leaf"></i></div>
+      <div class="project-body">
+        <span class="project-type">Design</span>
+        <h3>Veridian Apothecary</h3>
+        <p>Brand identity presentation with color systems, typography, and mood boards.</p>
+        <a href="https://raghdaa-640code.github.io/Veridian-Apothecary/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-2" data-category="web">
+      <div class="project-img"><i class="fa-solid fa-mug-hot"></i></div>
+      <div class="project-body">
+        <span class="project-type">Website</span>
+        <h3>The Tactile Archive</h3>
+        <p>Rustica Cafe website featuring menu, cozy spaces, and artisan coffee culture.</p>
+        <a href="https://raghdaa-640code.github.io/Tactile-Archive/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal" data-category="web">
+      <div class="project-img"><i class="fa-solid fa-right-to-bracket"></i></div>
+      <div class="project-body">
+        <span class="project-type">Website</span>
+        <h3>Login System</h3>
+        <p>Secure and modern login page with validation and user-friendly interface.</p>
+        <a href="https://raghdaa-640code.github.io/Log-in/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-1" data-category="web">
+      <div class="project-img"><i class="fa-solid fa-tooth"></i></div>
+      <div class="project-body">
+        <span class="project-type">Website</span>
+        <h3>Smile Clinic</h3>
+        <p>Dental clinic website with services, gallery, and appointment booking features.</p>
+        <a href="https://raghdaa-640code.github.io/Smile-Clinic/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-2" data-category="web">
+      <div class="project-img"><i class="fa-solid fa-envelope-open-text"></i></div>
+      <div class="project-body">
+        <span class="project-type">Website</span>
+        <h3>Invitation Generator</h3>
+        <p>Formal invitation letter generator for events and special occasions.</p>
+        <a href="https://raghdaa-640code.github.io/Invitation-Generator/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal" data-category="web">
+      <div class="project-img"><i class="fa-solid fa-puzzle-piece"></i></div>
+      <div class="project-body">
+        <span class="project-type">Website</span>
+        <h3>Puzzl</h3>
+        <p>Interactive puzzle game with engaging gameplay and clean design.</p>
+        <a href="https://raghdaa-640code.github.io/Puzzl/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-1" data-category="web">
+      <div class="project-img"><i class="fa-solid fa-utensils"></i></div>
+      <div class="project-body">
+        <span class="project-type">Website</span>
+        <h3>IRON & EMBER</h3>
+        <p>Interactive burger restaurant UI built with HTML, CSS, and JavaScript.</p>
+        <a href="https://raghdaa-640code.github.io/Iron-Ember/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-2" data-category="web">
+      <div class="project-img"><i class="fa-solid fa-utensils"></i></div>
+      <div class="project-body">
+        <span class="project-type">Website</span>
+        <h3>The Culinary Current</h3>
+        <p>Restaurant landing page with clean UI and smooth user experience.</p>
+        <a href="https://raghdaa-640code.github.io/Culinary-Current/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal" data-category="web">
+      <div class="project-img"><i class="fa-solid fa-leaf"></i></div>
+      <div class="project-body">
+        <span class="project-type">Website</span>
+        <h3>Petals & Prose</h3>
+        <p>Modern responsive website with clean layout and interactive user experience.</p>
+        <a href="https://raghdaa-640code.github.io/Petals-Prose/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-1" data-category="web">
+      <div class="project-img"><i class="fa-solid fa-book"></i></div>
+      <div class="project-body">
+        <span class="project-type">Website</span>
+        <h3>Book Platform</h3>
+        <p>Interactive books platform UI with clean design and smooth interactions.</p>
+        <a href="https://raghdaa-640code.github.io/book-shop/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-2" data-category="web">
+      <div class="project-img"><i class="fa-solid fa-cookie-bite"></i></div>
+      <div class="project-body">
+        <span class="project-type">Website</span>
+        <h3>Shortbread UI</h3>
+        <p>Front-end website with clean interface and soft colors. Elegant and minimal design.</p>
+        <a href="https://raghdaa-640code.github.io/loche/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal" data-category="design">
+      <div class="project-img"><i class="fa-brands fa-figma"></i></div>
+      <div class="project-body">
+        <span class="project-type">Design</span>
+        <h3>UX/UI Prototype</h3>
+        <p>Clean UI/UX flow prototype designed in Figma. Interactive design system.</p>
+        <a href="https://www.figma.com/proto/1iK0WXR12bUm2dOVXF3Z9Z/Untitled?node-id=1-31&p=f&t=2rxGBeBaP8Ggqmz6-1" target="_blank" class="project-link">View Design <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <!-- DASHBOARDS -->
+    <div class="project-card reveal reveal-delay-1" data-category="dashboard">
+      <div class="project-img"><i class="fa-solid fa-chart-line"></i></div>
+      <div class="project-body">
+        <span class="project-type">Dashboard</span>
+        <h3>InsightFlow Analytics</h3>
+        <p>Data analytics dashboard with interactive charts and business intelligence insights.</p>
+        <a href="https://raghdaa-640code.github.io/InsightFlow-Analytics/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-2" data-category="dashboard">
+      <div class="project-img"><i class="fa-solid fa-boxes-stacked"></i></div>
+      <div class="project-body">
+        <span class="project-type">Dashboard</span>
+        <h3>Inventory Intelligence</h3>
+        <p>Smart inventory management dashboard with real-time stock tracking.</p>
+        <a href="https://raghdaa-640code.github.io/Inventory-Intelligence-Dashboard/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal" data-category="dashboard">
+      <div class="project-img"><i class="fa-solid fa-chart-pie"></i></div>
+      <div class="project-body">
+        <span class="project-type">Dashboard</span>
+        <h3>Sales Revenue Dashboard</h3>
+        <p>Executive sales dashboard with revenue tracking, regional maps, and KPIs.</p>
+        <a href="https://raghdaa-640code.github.io/Sales-Revenue-Dashboard/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-1" data-category="dashboard">
+      <div class="project-img"><i class="fa-solid fa-briefcase"></i></div>
+      <div class="project-body">
+        <span class="project-type">Dashboard</span>
+        <h3>Executive Analyst</h3>
+        <p>Project management dashboard with health scores, deadlines, and team tracking.</p>
+        <a href="https://raghdaa-640code.github.io/Executive-Analyst-Dashboard/" target="_blank" class="project-link">Visit Project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+    <!-- APPLICATIONS -->
+    <div class="project-card reveal reveal-delay-2" data-category="app">
+      <div class="project-img"><i class="fa-solid fa-chart-bar"></i></div>
+      <div class="project-body">
+        <span class="project-type">Application</span>
+        <h3>Data Analysis</h3>
+        <p>Python data analysis using NumPy and Matplotlib with bar, line, and pie charts.</p>
+        <a href="https://github.com/raghdaa-640code/data_analysis" target="_blank" class="project-link">View on GitHub <i class="fa-brands fa-github"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal" data-category="app">
+      <div class="project-img"><i class="fa-solid fa-graduation-cap"></i></div>
+      <div class="project-body">
+        <span class="project-type">Application</span>
+        <h3>Student Performance Platform</h3>
+        <p>Flask web app with ML analytics and AI chatbot for student performance tracking.</p>
+        <a href="https://github.com/raghdaa-640code/Student-performance-platform" target="_blank" class="project-link">View on GitHub <i class="fa-brands fa-github"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-1" data-category="app">
+      <div class="project-img"><i class="fa-solid fa-book-open"></i></div>
+      <div class="project-body">
+        <span class="project-type">Application</span>
+        <h3>Library Management</h3>
+        <p>Python GUI app using Tkinter and SQLite for full library CRUD operations.</p>
+        <a href="https://github.com/raghdaa-640code/library-Management" target="_blank" class="project-link">View on GitHub <i class="fa-brands fa-github"></i></a>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-2" data-category="app">
+      <div class="project-img"><i class="fa-solid fa-list-check"></i></div>
+      <div class="project-body">
+        <span class="project-type">Application</span>
+        <h3>To-Do List</h3>
+        <p>Python GUI To-Do app using Tkinter with OOP principles and task management.</p>
+        <a href="https://github.com/raghdaa-640code/To-Do-List" target="_blank" class="project-link">View on GitHub <i class="fa-brands fa-github"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="contact">
+  <div class="section-header reveal">
+    <h2><span class="icon"><i class="fa-solid fa-envelope-open-text"></i></span> Contact Me</h2>
+    <p>Let's work together on your next project</p>
+  </div>
+  <div class="contact-wrapper reveal reveal-delay-1">
+    <p class="contact-text">Have a project in mind or just want to say hi? I'm always open to discussing new projects, creative ideas, or opportunities.</p>
+    <div class="contact-grid">
+      <a href="mailto:raghdaam640@gmail.com" class="contact-item">
+        <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+        <span>Email</span>
+      </a>
+      <a href="https://wa.me/201558774139" target="_blank" class="contact-item">
+        <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
+        <span>WhatsApp</span>
+      </a>
+      <a href="https://www.linkedin.com/in/raghdaa-mohammed-92030237b" target="_blank" class="contact-item">
+        <div class="contact-icon"><i class="fa-brands fa-linkedin-in"></i></div>
+        <span>LinkedIn</span>
+      </a>
+      <a href="https://github.com/raghdaa-640code" target="_blank" class="contact-item">
+        <div class="contact-icon"><i class="fa-brands fa-github"></i></div>
+        <span>GitHub</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>Made with <span class="heart"><i class="fa-solid fa-heart"></i></span> by Raghdaa Mohamed &copy; 2026</p>
+</footer>
+
+<script>
+// Loader
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hidden');
+  }, 800);
+});
+
+// Particles
+const particlesContainer = document.getElementById('particles');
+for (let i = 0; i < 15; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random() * 80 + 40;
+  p.style.cssText = `
+    width: ${size}px; height: ${size}px;
+    left: ${Math.random() * 100}%; top: ${Math.random() * 100}%;
+    animation-delay: ${Math.random() * 20}s;
+    animation-duration: ${15 + Math.random() * 15}s;
+  `;
+  particlesContainer.appendChild(p);
+}
+
+// Typing Animation
+const text = "Front-End Developer & UI/UX Designer";
+const typingEl = document.getElementById("typing");
+let i = 0;
+function typing() {
+  if (i < text.length) {
+    typingEl.textContent += text.charAt(i);
+    i++;
+    setTimeout(typing, 70);
+  }
+}
+setTimeout(typing, 800);
+
+// Dark Mode
+const toggle = document.getElementById('themeToggle');
+const body = document.body;
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+  body.setAttribute('data-theme', savedTheme);
+  toggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+}
+toggle.onclick = () => {
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    body.setAttribute('data-theme', 'light');
+    toggle.textContent = '🌙';
+    localStorage.setItem('theme', 'light');
+  } else {
+    body.setAttribute('data-theme', 'dark');
+    toggle.textContent = '☀️';
+    localStorage.setItem('theme', 'dark');
+  }
+};
+
+// Header Scroll Effect
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+});
+
+// Mobile Menu
+const mobileBtn = document.getElementById('mobileMenuBtn');
+const mobileNav = document.getElementById('mobileNav');
+const mobileLinks = mobileNav.querySelectorAll('a');
+mobileBtn.onclick = () => {
+  mobileBtn.classList.toggle('active');
+  mobileNav.classList.toggle('active');
+  document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+};
+mobileLinks.forEach(link => {
+  link.onclick = () => {
+    mobileBtn.classList.remove('active');
+    mobileNav.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+});
+
+// Scroll Reveal
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+revealEls.forEach(el => revealObserver.observe(el));
+
+// Active Nav Link
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.desktop-nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 150;
+    if (window.scrollY >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+});
+
+// Counter Animation
+const counters = document.querySelectorAll('.number[data-count]');
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseInt(el.dataset.count);
+      let count = 0;
+      const increment = target / 40;
+      const timer = setInterval(() => {
+        count += increment;
+        if (count >= target) {
+          el.textContent = target + '+';
+          clearInterval(timer);
+        } else {
+          el.textContent = Math.floor(count);
+        }
+      }, 40);
+      counterObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+counters.forEach(c => counterObserver.observe(c));
+
+// Project Filter
+const filterBtns = document.querySelectorAll('.filter-btn');
+const projectCards = document.querySelectorAll('.project-card');
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    projectCards.forEach(card => {
+      if (filter === 'all' || card.dataset.category === filter) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  });
+});
+</script>
+
+</body>
+</html>
