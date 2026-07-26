@@ -678,8 +678,9 @@ footer .heart {
     <a href="#services">Services</a>
     <a href="#projects">Projects</a>
     <a href="#contact">Contact</a>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
   </nav>
+
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
 
   <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -693,6 +694,7 @@ footer .heart {
   <a href="#services">Services</a>
   <a href="#projects">Projects</a>
   <a href="#contact">Contact</a>
+  <button class="theme-toggle" id="mobileThemeToggle" aria-label="Toggle theme" style="margin-top:10px;">🌙</button>
 </div>
 
 <main>
@@ -1155,21 +1157,34 @@ const toggle = document.getElementById('themeToggle');
 const body = document.body;
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme) {
-  body.setAttribute('data-theme', savedTheme);
-  toggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+  setTheme(savedTheme === 'dark');
 }
-toggle.onclick = () => {
-  const isDark = body.getAttribute('data-theme') === 'dark';
+function setTheme(isDark) {
   if (isDark) {
-    body.setAttribute('data-theme', 'light');
-    toggle.textContent = '🌙';
-    localStorage.setItem('theme', 'light');
-  } else {
     body.setAttribute('data-theme', 'dark');
     toggle.textContent = '☀️';
+    if (mobileToggle) mobileToggle.textContent = '☀️';
     localStorage.setItem('theme', 'dark');
+  } else {
+    body.setAttribute('data-theme', 'light');
+    toggle.textContent = '🌙';
+    if (mobileToggle) mobileToggle.textContent = '🌙';
+    localStorage.setItem('theme', 'light');
   }
+}
+
+toggle.onclick = () => {
+  const isDark = body.getAttribute('data-theme') !== 'dark';
+  setTheme(isDark);
 };
+
+const mobileToggle = document.getElementById('mobileThemeToggle');
+if (mobileToggle) {
+  mobileToggle.onclick = () => {
+    const isDark = body.getAttribute('data-theme') !== 'dark';
+    setTheme(isDark);
+  };
+}
 
 // Header Scroll Effect
 const header = document.getElementById('header');
