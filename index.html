@@ -641,8 +641,107 @@ footer .heart {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Mobile stability fixes */
+@media (max-width: 900px) {
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  header {
+    padding: 12px 5%;
+  }
+
+  .logo svg {
+    width: 130px;
+    height: auto;
+  }
+
+  .cover {
+    width: 100%;
+    min-height: 100svh;
+  }
+
+  .cover-text {
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .cover-text h1 {
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .cover-text p {
+    max-width: 100%;
+  }
+
+  .cover-buttons .btn {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  section {
+    width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+  .cover {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+  .cover-img .img-wrapper {
+    width: 200px;
+    height: 200px;
+  }
+
+  .cover-text h1 {
+    font-size: 2.2rem;
+  }
+
+  .cover-text h3 {
+    font-size: 1.15rem;
+  }
+
+  .cover-text p {
+    font-size: 0.95rem;
+  }
+
+  .cover-buttons {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cover-buttons .btn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .stats {
+    gap: 25px;
+  }
+
+  .stat-item {
+    min-width: 80px;
+  }
+
+  .timeline-item {
+    padding-left: 42px;
+  }
+
+  .timeline-content {
+    padding: 20px;
+  }
+}
+
 </style>
-<base target="_blank">
+
 </head>
 
 <body data-theme="light">
@@ -1154,31 +1253,60 @@ setTimeout(typing, 800);
 
 // Dark Mode
 const toggle = document.getElementById('themeToggle');
+const mobileToggle = document.getElementById('mobileThemeToggle');
 const body = document.body;
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme) {
-  setTheme(savedTheme === 'dark');
-}
+
 function setTheme(isDark) {
   if (isDark) {
     body.setAttribute('data-theme', 'dark');
-    toggle.textContent = '☀️';
-    if (mobileToggle) mobileToggle.textContent = '☀️';
+
+    if (toggle) {
+      toggle.textContent = '☀️';
+    }
+
+    if (mobileToggle) {
+      mobileToggle.textContent = '☀️';
+    }
+
     localStorage.setItem('theme', 'dark');
   } else {
     body.setAttribute('data-theme', 'light');
-    toggle.textContent = '🌙';
-    if (mobileToggle) mobileToggle.textContent = '🌙';
+
+    if (toggle) {
+      toggle.textContent = '🌙';
+    }
+
+    if (mobileToggle) {
+      mobileToggle.textContent = '🌙';
+    }
+
     localStorage.setItem('theme', 'light');
   }
 }
 
-toggle.onclick = () => {
-  const isDark = body.getAttribute('data-theme') !== 'dark';
-  setTheme(isDark);
-};
+// Load saved theme safely
+try {
+  const savedTheme = localStorage.getItem('theme');
 
-const mobileToggle = document.getElementById('mobileThemeToggle');
+  if (savedTheme === 'dark') {
+    setTheme(true);
+  } else {
+    setTheme(false);
+  }
+} catch (error) {
+  // If localStorage is unavailable, keep the default light theme.
+  setTheme(false);
+}
+
+// Desktop toggle
+if (toggle) {
+  toggle.onclick = () => {
+    const isDark = body.getAttribute('data-theme') !== 'dark';
+    setTheme(isDark);
+  };
+}
+
+// Mobile toggle
 if (mobileToggle) {
   mobileToggle.onclick = () => {
     const isDark = body.getAttribute('data-theme') !== 'dark';
@@ -1215,14 +1343,21 @@ mobileLinks.forEach(link => {
 
 // Scroll Reveal
 const revealEls = document.querySelectorAll('.reveal');
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('active');
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-revealEls.forEach(el => revealObserver.observe(el));
+
+if ('IntersectionObserver' in window) {
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+} else {
+  // Fallback for older browsers
+  revealEls.forEach(el => el.classList.add('active'));
+}
 
 // Active Nav Link
 const sections = document.querySelectorAll('section[id]');
@@ -1245,27 +1380,38 @@ window.addEventListener('scroll', () => {
 
 // Counter Animation
 const counters = document.querySelectorAll('.number[data-count]');
-const counterObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const el = entry.target;
-      const target = parseInt(el.dataset.count);
-      let count = 0;
-      const increment = target / 40;
-      const timer = setInterval(() => {
-        count += increment;
-        if (count >= target) {
-          el.textContent = target + '+';
-          clearInterval(timer);
-        } else {
-          el.textContent = Math.floor(count);
-        }
-      }, 40);
-      counterObserver.unobserve(el);
+
+function animateCounter(el) {
+  const target = parseInt(el.dataset.count, 10);
+  let count = 0;
+  const increment = target / 40;
+
+  const timer = setInterval(() => {
+    count += increment;
+
+    if (count >= target) {
+      el.textContent = target + '+';
+      clearInterval(timer);
+    } else {
+      el.textContent = Math.floor(count);
     }
-  });
-}, { threshold: 0.5 });
-counters.forEach(c => counterObserver.observe(c));
+  }, 40);
+}
+
+if ('IntersectionObserver' in window) {
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  counters.forEach(c => counterObserver.observe(c));
+} else {
+  counters.forEach(animateCounter);
+}
 
 // Project Filter
 const filterBtns = document.querySelectorAll('.filter-btn');
